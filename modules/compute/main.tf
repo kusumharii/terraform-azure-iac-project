@@ -1,32 +1,30 @@
 resource "azurerm_network_interface" "nic" {
-  name                = "iac-nic"
-  location            = var.location
+  name = "iac-nic"
+  location = var.location
   resource_group_name = var.resource_group_name
 
   ip_configuration {
-    name                          = "internal"
-    subnet_id                     = var.subnet_id
+    name = "internal"
+    subnet_id = var.subnet_id
     private_ip_address_allocation = "Dynamic"
   }
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = "iac-vm"
+  name = "iac-vm"
   resource_group_name = var.resource_group_name
-  location            = var.location
-  size                = "Standard_B2ats_v2"
+  location = var.location
+  size = "Standard_B2ats_v2"
 
   admin_username = "azureuser"
   admin_password = "Password1234!"
 
   disable_password_authentication = false
 
-  network_interface_ids = [
-    azurerm_network_interface.nic.id,
-  ]
+  network_interface_ids = [ azurerm_network_interface.nic.id, ]
 
   os_disk {
-    caching              = "ReadWrite"
+    caching = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
